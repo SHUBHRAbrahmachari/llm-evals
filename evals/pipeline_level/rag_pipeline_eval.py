@@ -48,21 +48,21 @@ gemini_model_2 = GeminiModel(model="gemini-3.1-flash-lite")
 
 # define the metrics
 metrics = [
-    # FaithfulnessMetric(
-    #     threshold=0.8,
-    #     model=gemini_model_1,
-    #     include_reason=True,
-    #     async_mode=True,
-    #     verbose_mode=True
-    # ),
-    #
-    # AnswerRelevancyMetric(
-    #     threshold=0.8,
-    #     model=gemini_model_2,
-    #     include_reason=True,
-    #     async_mode=True,
-    #     verbose_mode=True
-    # )
+    FaithfulnessMetric(
+        threshold=0.8,
+        model=gemini_model_1,
+        include_reason=True,
+        async_mode=True,
+        verbose_mode=True
+    ),
+
+    AnswerRelevancyMetric(
+        threshold=0.8,
+        model=gemini_model_2,
+        include_reason=True,
+        async_mode=True,
+        verbose_mode=True
+    ),
 
     ContextualRelevancyMetric(
         threshold=0.5,
