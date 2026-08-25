@@ -1,0 +1,49 @@
+{
+  "embedding_model_provider": "google",
+  "embedding_models": {
+    "huggingface": "BAAI/bge-m3",
+    "google": "gemini-embedding-2"
+  },
+
+  "chat_model_provider": "google",
+  "chat_models": {
+    "huggingface": "meta-models/Muse-Glimmer-30B",
+    "google": "gemma-4-31b-it"
+  },
+
+  "reranker_model_provider": "huggingface",
+  "reranker_models": {
+    "huggingface": "BAAI/bge-reranker-large"
+  },
+
+  
+  "vector_store_provider": "mongodb",
+  "vector_store_config": {
+    "mongodb": {
+      "database": "rag_db",
+      "collection": "rag_documents",
+      "index_name": "vector_index",
+      "embedding_length": 3072,
+      "text_key": "text",
+      "embedding_key": "embedding",
+      "fiters": ["doc_name"]
+    }
+  },
+
+  "retriever_config": {
+    "fetch_k": 20,
+    "k": 10,
+    "top_k": 5,
+    "search_type": "similarity",
+    "lambda_mult": 0.6
+  },
+
+  "rag_config": {
+    "doc_extensions": [".txt", ".pdf", ".docx", ".pptx"],
+    "chunk_size": 1000,
+    "chunk_overlap": 150
+  },
+
+  "base_doc_path": "C:/Users/Shubhra/OneDrive/Desktop/RAG_DOCUMENTS/",
+  "doc_name": "RESUME.pdf"
+}

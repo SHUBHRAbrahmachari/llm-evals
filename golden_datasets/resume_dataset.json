@@ -1,0 +1,82 @@
+[
+  {
+    "question": "What is Shubhra Brahmachari's educational background, including institution, degree, and academic scores?",
+    "expected_answer": "Shubhra Brahmachari completed a B.Tech / B.E. in Computer Science and Engineering (CSE) from the Academy of Technology, Kolkata, achieving a score of 75.5%. Prior to this, he completed his schooling under the West Bengal Board in Bengali/Bangla medium. He passed Class XII in 2022 with a score of 84.6%, and Class X in 2020 with a score of 91.84%."
+  },
+  {
+    "question": "What technologies were used to build the Quizzy platform, and what core functionalities did it provide?",
+    "expected_answer": "Quizzy is a distributed quiz management platform built using Java, Spring Boot, Spring Cloud, Spring Data JPA, Spring Data MongoDB, Netflix Eureka, OpenFeign, JWT, MongoDB, SQL, REST APIs, and Maven. The platform provided RESTful APIs to create, launch, update, and play quizzes, as well as manage quiz attempts and enforce scheduling and attempt limits. MongoDB was used for quiz data storage, while Spring Data JPA handled relational data management. JWT-based authentication was implemented for security, Netflix Eureka handled service discovery, and OpenFeign enabled inter-service communication. The project ran from June 2026 to July 2026."
+  },
+  {
+    "question": "Describe the MiPA (My Personal Assistant) project — its architecture, key technologies, and core features.",
+    "expected_answer": "MiPA is an AI-powered personal assistant developed using LangChain and LangGraph, featuring autonomous tool orchestration and personalized assistance. It leverages the Model Context Protocol (MCP) through dedicated, cloud-deployable MCP servers built for tool execution and long-term memory management. The backend uses FastAPI with JWT-secured REST APIs. For data persistence, MongoDB Atlas is used for persistent memory and Supabase (PostgreSQL) for application data, with SQLAlchemy as the ORM. MiPA's core capabilities include event scheduling, personal finance tracking and analysis, web search, knowledge retrieval, and a Self-RAG-based document question-answering system. The full technology stack includes Python, FastAPI, LangChain, LangGraph, MCP, MongoDB Atlas, Supabase, SQLAlchemy, JWT, and Self-RAG. It was developed between May 2026 and August 2026."
+  },
+  {
+    "question": "What is HisNet, what model architecture does it use, and what classification accuracy did it achieve?",
+    "expected_answer": "HisNet is a Vision Transformer-Based Osteosarcoma Detection system developed between October 2025 and March 2026. It uses a lightweight Vision Transformer (ViT) encoder-only model built with TensorFlow and Keras for detecting osteosarcoma from histopathological Whole Slide Images (WSIs). The model was trained and evaluated on datasets from The Cancer Imaging Archive (TCIA), with image augmentation applied to improve generalization. HisNet achieved 86.9% classification accuracy while maintaining a compact model size of 28 MB, including optimizer parameters, with ongoing work focused on further improving model performance."
+  },
+  {
+    "question": "Which database and data persistence technologies were used across Shubhra's projects, and how were they applied in each?",
+    "expected_answer": "Shubhra used multiple database technologies across his projects. In the Quizzy project, MongoDB was used for quiz data storage through Spring Data MongoDB, while Spring Data JPA was used for relational data management with SQL databases. In the MiPA project, MongoDB Atlas served as the persistent memory store for the AI assistant's long-term memory, and Supabase (PostgreSQL) was used as the application database, with SQLAlchemy used as the ORM layer for PostgreSQL. HisNet, being a deep learning computer vision model trained on medical imaging datasets from The Cancer Imaging Archive (TCIA), did not involve a traditional database."
+  },
+  {
+    "question": "What certifications has Shubhra Brahmachari earned, and what domains do they cover?",
+    "expected_answer": "Shubhra Brahmachari has earned three certifications. The first is a Data Science With Generative AI Course, covering the domains of data science and generative artificial intelligence. The second is the Complete Java Developer Course Batch-3, focused on Java development. The third is the Wipro TalentNext: Digital Skill Readiness Program On Java Full-Stack Development, which covers full-stack Java development under Wipro's digital skilling initiative."
+  },
+  {
+    "question": "How did the Quizzy application handle inter-service communication and security in its microservices architecture?",
+    "expected_answer": "In Quizzy's microservices architecture, inter-service communication was handled using two mechanisms: Netflix Eureka was used for service discovery, allowing services to locate and register with each other dynamically, while OpenFeign was used for declarative HTTP client-based inter-service communication. For security, JWT (JSON Web Token)-based authentication was implemented to secure API access across the platform."
+  },
+  {
+    "question": "What is the model size of HisNet, and on what dataset was it trained?",
+    "expected_answer": "HisNet has a compact model size of 28 MB, which includes optimizer parameters. It was trained and evaluated on datasets from The Cancer Imaging Archive (TCIA), specifically using histopathological Whole Slide Images (WSIs) for osteosarcoma detection. Image augmentation was applied during training to improve the model's generalization capability."
+  },
+  {
+    "question": "What role does the Model Context Protocol (MCP) play in the MiPA project, and how was it implemented?",
+    "expected_answer": "In the MiPA project, the Model Context Protocol (MCP) plays a central role in enabling autonomous tool orchestration and long-term memory management. Shubhra implemented MCP by developing dedicated, cloud-deployable MCP servers specifically designed for tool execution and long-term memory management. These MCP servers serve as the execution layer through which MiPA's various capabilities — such as event scheduling, web search, knowledge retrieval, and personal finance tracking — are exposed and invoked by the LangGraph-based agent. The MCP server code is separately hosted at https://github.com/SHUBHRAbrahmachari/MiPA-mcp-server.git."
+  },
+  {
+    "question": "What is Shubhra Brahmachari's academic score progression from Class X through to his undergraduate degree, and what pattern does it show?",
+    "expected_answer": "Shubhra Brahmachari's academic scores across his levels of education are as follows: he scored 91.84% in Class X (passed in 2020) under the West Bengal Board, then 84.6% in Class XII (passed in 2022) also under the West Bengal Board, and finally 75.5% at the undergraduate level in his B.Tech / B.E. in Computer Science and Engineering from the Academy of Technology, Kolkata. The scores show a declining trend across levels, with Class X being the highest and the undergraduate score being the lowest of the three."
+  },
+    {
+    "question": "What does Shubhra Brahmachari's resume summary say about his professional background and career aspirations?",
+    "expected_answer": "Shubhra Brahmachari's resume summary describes him as an adaptable and growth-oriented Software Developer with a strong foundation in software engineering and hands-on experience across backend development and Generative and Agentic AI. He is described as a curious and continuous learner who embraces new technologies, challenges, and opportunities to expand skills. His stated career aspirations are to contribute meaningful solutions to the industry, learn from real-world problems, and grow into a versatile, high-impact software engineer."
+  },
+  {
+    "question": "What languages does Shubhra Brahmachari know, and at what proficiency level is each?",
+    "expected_answer": "Shubhra Brahmachari knows three languages. He is proficient in English at both written and spoken levels. He knows Hindi at the spoken level only. He is proficient in Bengali at both written and spoken levels."
+  },
+  {
+    "question": "Which technologies are shared between the Quizzy and MiPA projects?",
+    "expected_answer": "Three key technologies appear in both the Quizzy and MiPA projects. First, JWT (JSON Web Token) is used in both: Quizzy implements JWT-based authentication, while MiPA implements JWT-secured REST APIs via FastAPI. Second, REST APIs are a core component of both: Quizzy built RESTful APIs for quiz management operations, while MiPA exposes JWT-secured REST APIs for its assistant capabilities. Third, MongoDB appears in both: Quizzy uses MongoDB for quiz data storage via Spring Data MongoDB, while MiPA uses MongoDB Atlas specifically for persistent long-term memory management."
+  },
+  {
+    "question": "What is the role of Self-RAG in the MiPA project?",
+    "expected_answer": "In the MiPA project, Self-RAG is used to power a document question-answering system. It is listed both as one of MiPA's core built capabilities — described as a Self-RAG-based document question-answering system — and as a named technology in the full technology stack alongside Python, FastAPI, LangChain, LangGraph, MCP, MongoDB Atlas, Supabase, SQLAlchemy, and JWT."
+  },
+  {
+    "question": "What GitHub repository links are provided in Shubhra's resume, and which projects do they correspond to?",
+    "expected_answer": "Three GitHub repository links are listed in Shubhra's resume. The first is https://github.com/SHUBHRAbrahmachari/Quizzy.git, corresponding to the Quizzy distributed quiz management platform project. The second is https://github.com/SHUBHRAbrahmachari/MiPA.git, corresponding to the main MiPA personal assistant project. The third is https://github.com/SHUBHRAbrahmachari/MiPA-mcp-server.git, corresponding to the dedicated MCP server component of MiPA. No GitHub link is listed for the HisNet project."
+  },
+  {
+    "question": "What achievement is listed in Shubhra Brahmachari's resume?",
+    "expected_answer": "The only achievement listed in Shubhra Brahmachari's resume is that he received a scholarship in school. No further details about the scholarship — such as the awarding body, year, or amount — are provided in the resume."
+  },
+  {
+    "question": "How did the HisNet project address the challenge of improving model generalization?",
+    "expected_answer": "HisNet addressed the challenge of model generalization by applying image augmentation during training. The model was trained on histopathological Whole Slide Images (WSIs) sourced from The Cancer Imaging Archive (TCIA), and image augmentation was applied specifically to improve the model's ability to generalize beyond the training data. The resume also notes that ongoing work is focused on further improving model performance, indicating that generalization and accuracy improvement remain active areas of development."
+  },
+  {
+    "question": "Which of Shubhra's projects used Python, and what was Python's role in each?",
+    "expected_answer": "Python was used in two of Shubhra's three projects. In MiPA, Python served as the primary development language for the entire agentic AI assistant, used alongside FastAPI for the REST API backend, LangChain and LangGraph for the agent framework, SQLAlchemy for ORM, and other libraries including those for MCP server development and Self-RAG. In HisNet, Python was used for the deep learning pipeline, specifically with TensorFlow and Keras to build and train the Vision Transformer (ViT) encoder-only model for osteosarcoma detection. The Quizzy project did not use Python; it was built entirely with Java and the Spring ecosystem."
+  },
+  {
+    "question": "What personal details are provided in Shubhra Brahmachari's resume?",
+    "expected_answer": "The resume provides the following personal details about Shubhra Brahmachari: his current location is Kolkata, his date of birth is November 24, 2003, and his gender is Male. His contact details include a mobile number of +91-6291097437 and an email address of shubhrab2003@gmail.com."
+  },
+  {
+    "question": "What two data storage paradigms did Quizzy employ, and what computing principle guided its data architecture?",
+    "expected_answer": "Quizzy employed two distinct data storage paradigms. The first is NoSQL storage via MongoDB, used through Spring Data MongoDB for quiz data storage. The second is relational storage via SQL, managed through Spring Data JPA for relational data management. The resume states that this dual-storage data architecture was implemented following distributed computing principles, reflecting the platform's design as a scalable, microservices-based distributed system."
+  }
+]
