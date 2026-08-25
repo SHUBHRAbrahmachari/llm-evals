@@ -20,7 +20,7 @@ load_dotenv(
     verbose=False
 )
 
-DATASET_PATH = "./golden_datasets/resume_dataset.json"
+DATASET_PATH = "./golden_datasets/golden_dataset.json"
 
 with open(DATASET_PATH, "r") as f:
     dataset = json.load(f)

@@ -33,7 +33,7 @@ load_dotenv(
 )
 
 # load the dataset
-with open("./golden_datasets/resume_dataset.json", "r") as d:
+with open("./golden_datasets/golden_dataset.json", "r") as d:
     dataset = json.load(d)
 
 # use only a subset of the dataset

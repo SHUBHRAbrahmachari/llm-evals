@@ -78,5 +78,86 @@
   {
     "question": "What two data storage paradigms did Quizzy employ, and what computing principle guided its data architecture?",
     "expected_answer": "Quizzy employed two distinct data storage paradigms. The first is NoSQL storage via MongoDB, used through Spring Data MongoDB for quiz data storage. The second is relational storage via SQL, managed through Spring Data JPA for relational data management. The resume states that this dual-storage data architecture was implemented following distributed computing principles, reflecting the platform's design as a scalable, microservices-based distributed system."
+  },
+
+  {
+    "query": "What are Shubhra Brahmachari's contact details, date of birth, and current location?",
+    "expected_answer": "Shubhra Brahmachari is located in Kolkata, India[cite: 1]. His date of birth is November 24, 2003[cite: 1]. His contact details are mobile number +91-6291097437 and email address shubhrab2003@gmail.com[cite: 1]."
+  },
+  {
+    "query": "Summarize Shubhra Brahmachari's complete educational background, including school and college details.",
+    "expected_answer": "Shubhra Brahmachari completed his B.Tech/B.E. in Computer Science and Engineering (CSE) from the Academy of Technology, Kolkata, achieving a score of 75.5%[cite: 1]. For his schooling under the West Bengal Board in Bengali/Bangla medium, he passed Class XII in 2022 with 84.6% and Class X in 2020 with 91.84%[cite: 1]."
+  },
+  {
+    "query": "What programming languages, frameworks, and technical competencies are listed under Shubhra's core skills?",
+    "expected_answer": "Shubhra's technical skills include C++, Java, Python, Data Structures & Algorithms (DSA), Object-Oriented Programming (OOP), Low-Level Design (LLD), Spring Boot, MySQL, MongoDB, Machine Learning, Deep Learning, LangChain, LangGraph, Generative Artificial Intelligence, and Agentic AI[cite: 1]."
+  },
+  {
+    "query": "What professional certifications has Shubhra earned?",
+    "expected_answer": "Shubhra holds three certifications: 'Data Science With Generative AI Course', 'Complete Java Developer Course Batch-3', and 'Wipro TalentNext: Digital Skill Readiness Program On Java Full-Stack Development'[cite: 1]."
+  },
+  {
+    "query": "What languages does Shubhra speak or write?",
+    "expected_answer": "Shubhra is proficient in English (both spoken and written), Bengali (both spoken and written), and Hindi (spoken)[cite: 1]."
+  },
+  {
+    "query": "What is the Quizzy project and what architecture does it use?",
+    "expected_answer": "Quizzy is a scalable microservices-based distributed quiz management platform developed between June 2026 and July 2026 using Java, Spring Boot, and Spring Cloud[cite: 1]."
+  },
+  {
+    "query": "What technologies were used to build the backend, service discovery, and database layers for Quizzy?",
+    "expected_answer": "Quizzy was built using Java, Spring Boot, Spring Cloud, Spring Data JPA, Spring Data MongoDB, Netflix Eureka for service discovery, OpenFeign for inter-service communication, JWT for authentication, REST APIs, SQL, MongoDB, and Maven[cite: 1]."
+  },
+  {
+    "query": "What core features were implemented in the Quizzy platform?",
+    "expected_answer": "Quizzy features RESTful APIs to create, launch, update, and play quizzes, manage quiz attempts, enforce scheduling and attempt limits, and manage JWT-based authentication[cite: 1]."
+  },
+  {
+    "query": "What is MIPA, and what is its main objective as an AI project?",
+    "expected_answer": "MIPA (My Personal Assistant) is an AI-powered personal assistant project created between May 2026 and August 2026 designed to provide autonomous tool orchestration and personalized assistance[cite: 1]."
+  },
+  {
+    "query": "How does MIPA implement Agentic AI capabilities and tool execution?",
+    "expected_answer": "MIPA leverages LangChain and LangGraph alongside the Model Context Protocol (MCP) by using dedicated, cloud-deployable MCP servers for autonomous tool execution and long-term memory management[cite: 1]."
+  },
+  {
+    "query": "What databases, authentication methods, and frameworks support MIPA?",
+    "expected_answer": "MIPA uses FastAPI for JWT-secured REST APIs, MongoDB Atlas for persistent long-term memory, and Supabase (PostgreSQL) with SQLAlchemy for application data[cite: 1]."
+  },
+  {
+    "query": "What specific utilities and features are included inside the MIPA personal assistant?",
+    "expected_answer": "MIPA includes utilities for event scheduling, personal finance tracking and analysis, web search, knowledge retrieval, and a Self-RAG-based document question-answering system[cite: 1]."
+  },
+  {
+    "query": "What are the GitHub repository URLs associated with the MIPA project?",
+    "expected_answer": "The GitHub repositories for MIPA are https://github.com/SHUBHRAbrahmachari/MiPA.git for the main project and https://github.com/SHUBHRAbrahmachari/MiPA-mcp-server.git for the MCP server[cite: 1]."
+  },
+  {
+    "query": "What is HisNet and what specific medical computer vision task does it address?",
+    "expected_answer": "HisNet is a deep learning project developed between October 2025 and March 2026 that focuses on detecting osteosarcoma from histopathological Whole Slide Images (WSIs)[cite: 1]."
+  },
+  {
+    "query": "What model architecture and dataset were used for the HisNet project?",
+    "expected_answer": "HisNet uses a lightweight Vision Transformer (ViT) encoder-only model built with TensorFlow/Keras and trained on histopathological whole slide images from The Cancer Imaging Archive (TCIA) using image augmentation[cite: 1]."
+  },
+  {
+    "query": "What classification accuracy and model footprint were achieved in the HisNet project?",
+    "expected_answer": "HisNet achieved an 86.9% classification accuracy while maintaining a compact model size of 28 MB including optimizer parameters[cite: 1]."
+  },
+  {
+    "query": "What is the chronological sequence and duration of Shubhra's project developments?",
+    "expected_answer": "HisNet was developed from October 2025 to March 2026, MIPA from May 2026 to August 2026, and Quizzy from June 2026 to July 2026[cite: 1]."
+  },
+  {
+    "query": "What achievements or honors are highlighted in Shubhra's resume?",
+    "expected_answer": "Shubhra received a scholarship during his schooling[cite: 1]."
+  },
+  {
+    "query": "How does Shubhra summarize his professional profile and career objectives?",
+    "expected_answer": "Shubhra describes himself as an adaptable, growth-oriented Software Developer with a strong foundation in backend development and Generative & Agentic AI, eager to solve real-world problems and grow into a high-impact software engineer[cite: 1]."
+  },
+  {
+    "query": "Summarize Shubhra's technical background specifically in Artificial Intelligence and Machine Learning.",
+    "expected_answer": "Shubhra's AI/ML expertise includes skills in Machine Learning, Deep Learning, LangChain, LangGraph, Generative AI, and Agentic AI[cite: 1]. His key AI projects are MIPA (an Agentic AI assistant utilizing MCP, LangChain, LangGraph, and Self-RAG) and HisNet (a Vision Transformer encoder-only model for medical image analysis built with TensorFlow/Keras)[cite: 1], supplemented by a certification in 'Data Science With Generative AI Course'[cite: 1]."
   }
 ]
