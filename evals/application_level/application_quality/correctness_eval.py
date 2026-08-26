@@ -63,36 +63,47 @@ gemini_model = GeminiModel(
     model="gemini-3.5-flash-lite"
 )
 
+# DEFINE THE EVALUATION STEPS
+evaluation_steps = [
+    "Deconstruct 'actual output' into individual, non-reducible atomic factual assertions (e.g., specific names, dates, metrics, technologies, or actions).",
+    "Cross-reference every extracted atomic assertion directly against the ground truth provided in 'expected output'.",
+    "Classify an assertion as 'Fully Correct' if 'expected output' explicitly validates the assertion along with all its specific details and qualifiers.",
+    "Classify an assertion as 'Partially Incorrect' if the underlying statement is generally true, but misquotes numbers, alters timeline details, or drops critical qualifiers.",
+    "Classify an assertion as 'Hallucinated / False' if it directly contradicts 'expected output' or introduces factual claims completely unsupported by 'expected output'.",
+    "Verify whether 'actual output' answers the query in 'input' with complete factual precision, without introducing misleading or unverified assertions.",
+    "Calculate the final score by heavily penalizing 'Hallucinated / False' claims, moderately penalizing 'Partially Incorrect' assertions, and awarding full credit for 'Fully Correct' claims."
+]
+
+# DEFINE THE RUBRICS
+rubrics = [
+    Rubric(
+        score_range=(1, 4),
+        expected_outcome="Unacceptable / Severe Inaccuracies: 'actual output' contains major hallucinations, false facts, or direct contradictions to 'expected output'."
+    ),
+    Rubric(
+        score_range=(5, 7),
+        expected_outcome="Acceptable / Minor Inaccuracies: 'actual output' is mostly factual, but contains minor factual slips, altered qualifiers, or unverified details."
+    ),
+    Rubric(
+        score_range=(8, 10),
+        expected_outcome="Flawless Correctness: Every atomic assertion in 'actual output' is 100% accurate, fully supported by 'expected output', and completely free of hallucinations."
+    )
+]
+
+#DEFINE THE EVALUATION PARAMS
+evaluation_params = [
+    SingleTurnParams.INPUT,
+    SingleTurnParams.ACTUAL_OUTPUT,
+    SingleTurnParams.EXPECTED_OUTPUT
+]
+
 # WE'LL BE WRITING THE EVALUATION STEPS OURSELVES
 metric = GEval(
     name="correctness",
-    evaluation_params=[
-        SingleTurnParams.INPUT,
-        SingleTurnParams.ACTUAL_OUTPUT,
-        SingleTurnParams.EXPECTED_OUTPUT
-    ],
-    evaluation_steps=[
-        "Extract all key factual claims and assertions made in the 'actual output'.",
-        "Cross-reference each claim in 'actual output' directly against the facts provided in 'expected output'.",
-        "Identify if 'actual output' contains any direct factual contradictions to 'expected output'.",
-        "Identify if 'actual output' introduces outside information, assumptions, or hallucinations not present in 'expected output'.",
-        "Verify if the primary question asked in 'input' was fully answered using facts from 'expected output'.",
-        "Penalize heavily for false claims or severe omissions. Do not penalize for minor syntactic variations, rephrasing, or structural differences if the underlying meaning is accurate."
-    ],
-    rubric=[
-        Rubric(
-            score_range=(1, 4),
-            expected_outcome="Unsatisfactory: 'actual output' contains severe factual errors, hallucinations, or fails to cover more than 50% of the key facts in 'expected output'."
-        ),
-        Rubric(
-            score_range=(5, 7),
-            expected_outcome="Partially Complete: 'actual output' accurately answers the main query but omits several important supporting facts, context, or technical details."
-        ),
-        Rubric(
-            score_range=(8, 10),
-            expected_outcome="Exemplary: 'actual output' fully and accurately captures every key detail, nuance, and metric from 'expected output' with zero factual omissions."
-        )
-    ],
+    threshold=0.7,
+    evaluation_params=evaluation_params,
+    evaluation_steps=evaluation_steps,
+    rubric=rubrics,
     async_mode=True,
     verbose_mode=True,
     model=gemini_model
