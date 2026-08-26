@@ -90,7 +90,7 @@ rubrics = [
     )
 ]
 
-#DEFINE THE EVALUATION PARAMS
+# DEFINE THE EVALUATION PARAMS
 evaluation_params = [
     SingleTurnParams.INPUT,
     SingleTurnParams.ACTUAL_OUTPUT,
