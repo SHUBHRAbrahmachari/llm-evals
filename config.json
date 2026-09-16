@@ -9,7 +9,7 @@
   "chat_models": {
     "huggingface": "meta-models/Muse-Glimmer-30B",
     "google": "gemma-4-31b-it",
-    "aws_bedrock": "openai.gpt-oss-20b-1:0"
+    "aws_bedrock": "google.gemma-3-12b-it"
   },
 
   "reranker_model_provider": "huggingface",
