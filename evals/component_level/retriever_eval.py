@@ -72,7 +72,8 @@ for block in subset:
     )
 
 
-results = evaluate(
-    test_cases=test_cases,
-    metrics=metrics,
-)
+def run_retriever_eval():
+    results = evaluate(
+        test_cases=test_cases,
+        metrics=metrics,
+    )

@@ -95,9 +95,13 @@ for record in records:
             )
         )
 
-# run the evaluation
-result = evaluate(
-    test_cases=test_cases,
-    metrics=metrics,
-    hyperparameters=load_eval_config()
-)
+
+def run_pipeline_eval():
+    # run the evaluation
+    result = evaluate(
+        test_cases=test_cases,
+        metrics=metrics,
+        hyperparameters=load_eval_config()
+    )
+
+    return result
