@@ -108,7 +108,7 @@ metric = GEval(
     rubric=rubrics,
     async_mode=True,
     verbose_mode=True,
-    model=gemini_model
+    model=judge
 )
 
 metrics = [metric]

@@ -9,9 +9,11 @@ The metrics used for retriever eval are--
 
 from src.retrievers.reranker_retriever import RerankerRetriever
 from deepeval.metrics import ContextualPrecisionMetric, ContextualRecallMetric
-from deepeval.models import GeminiModel
+from deepeval.models import AmazonBedrockModel
 from deepeval.test_case import LLMTestCase
 from deepeval.evaluate import evaluate
+from langsmith import Client
+from random import randint
 from dotenv import load_dotenv
 import json
 
@@ -20,20 +22,18 @@ load_dotenv(
     verbose=False
 )
 
-DATASET_PATH = "./golden_datasets/golden_dataset.json"
+with open("config.json", "r") as f:
+    config = json.load(f)
 
-with open(DATASET_PATH, "r") as f:
-    dataset = json.load(f)
+judge = AmazonBedrockModel(
+    model=config.get("chat_models").get("aws_bedrock")
+)
 
-subset = dataset[5: 8]
-
-gemini_model_1 = GeminiModel(model="gemini-3.5-flash-lite")
-gemini_model_2 = GeminiModel(model="gemini-3.1-flash-lite")
 
 metrics = [
     ContextualRecallMetric(
         threshold=0.7,
-        model=gemini_model_2,
+        model=judge,
         include_reason=True,
         async_mode=True,
         verbose_mode=True,
@@ -41,35 +41,45 @@ metrics = [
 
     ContextualPrecisionMetric(
         threshold=0.7,
-        model=gemini_model_1,
+        model=judge,
         include_reason=True,
         async_mode=True,
         verbose_mode=True
     )
 ]
 
-test_cases: list[LLMTestCase] = []
-
+# GET THE RETRIEVER
 retriever = RerankerRetriever()
 
-for block in subset:
-    query = block.get("question")
-    expected_answer = block.get("expected_answer")
+# GET THE CLIENT
+client = Client()
 
-    docs = retriever.fetch_documents(query)
+test_cases = []
 
-    content_list = []
-    for doc in docs:
-        content_list.append(doc.page_content)
+# GET THE EXAMPLES
+examples = client.list_examples(
+    dataset_name="quality_dataset",
+    limit=20
+)
 
-    test_cases.append(
-        LLMTestCase(
-            input=query,
-            actual_output=None,
-            expected_output=expected_answer,
-            retrieval_context=content_list
+for example in examples:
+
+    # WE WILL PICK RANDOMLY
+    if randint(1, 100) % 2 == 0:
+        query = example.inputs.get("query")
+        expected_output = example.outputs.get("expected_answer")
+
+        documents = retriever.fetch_documents(query)
+        context = [d.page_content for d in documents]
+
+        test_cases.append(
+            LLMTestCase(
+                input=query,
+                actual_output=None,
+                expected_output=expected_output,
+                retrieval_context=context
+            )
         )
-    )
 
 
 def run_retriever_eval():
@@ -77,3 +87,5 @@ def run_retriever_eval():
         test_cases=test_cases,
         metrics=metrics,
     )
+
+    return results
