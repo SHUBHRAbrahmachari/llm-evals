@@ -2,16 +2,15 @@
     Same as we did with correctness eval, we're going to do the same with correctness eval.
     We'll again use GEval for that. The fundamental concept is same!
 """
-from networkx.algorithms import threshold
-from openai.resources.beta.threads import threads
-
 from src.pipeline.rag_pipeline import RAGPipeline
 from src.utils.eval_config_loading import load_eval_config
 from deepeval.metrics.g_eval import Rubric
 from deepeval.metrics import GEval
 from deepeval.evaluate import evaluate
 from deepeval.test_case import LLMTestCase, SingleTurnParams
-from deepeval.models import GeminiModel
+from deepeval.models import AmazonBedrockModel
+from langsmith import Client
+from random import randint
 from dotenv import load_dotenv
 import json
 
@@ -21,9 +20,6 @@ load_dotenv(
     verbose=False
 )
 
-# LOAD THE DATASET
-with open("./golden_datasets/golden_dataset.json", "r") as f:
-    dataset = json.load(f)[10: 20: 4]
 
 # DEFINE YOUR EVALUATION PARAMS
 evaluation_steps = [
@@ -42,8 +38,6 @@ evaluation_params = [
     SingleTurnParams.INPUT,
     SingleTurnParams.ACTUAL_OUTPUT,
     SingleTurnParams.EXPECTED_OUTPUT
-
-
 ]
 
 # DEFINE THE RUBRICS
@@ -62,9 +56,13 @@ rubrics = [
     )
 ]
 
+# LOAD CONFIGURATION FILE
+with open("config.json", "r") as f:
+    config = json.load(f)
+
 # GET THE JUDGE MODEL
-judge = GeminiModel(
-    model="gemini-3.5-flash-lite"
+judge = AmazonBedrockModel(
+    model=config.get("chat_models").get("aws_bedrock")
 )
 
 # GET THE METRICS
@@ -84,25 +82,42 @@ metrics = [
 # GET THE RAG pipeline
 pipeline = RAGPipeline()
 
+# GET THE CLIENT
+client = Client()
+
 test_cases = []
-for block in dataset:
-    query = block.get("question")
-    expected_output = block.get("expected_answer")
 
-    _, actual_output = pipeline.invoke(query=query)
+# GET THE EXAMPLES
+examples = client.list_examples(
+    dataset_name="quality_dataset",
+    limit=20
+)
 
-    test_cases.append(
-        LLMTestCase(
-            input=query,
-            actual_output=actual_output,
-            expected_output=expected_output,
-            retrieval_context=None
+for example in examples:
+
+    # WE WILL PICK RANDOMLY
+    if randint(1, 100) % 2 == 0:
+        query = example.inputs.get("query")
+        expected_output = example.outputs.get("expected_answer")
+
+        _, response = pipeline.invoke(query)
+
+        test_cases.append(
+            LLMTestCase(
+                input=query,
+                actual_output=response,
+                expected_output=expected_output,
+                retrieval_context=None
+            )
         )
+
+
+def run_completeness_eval():
+    # RUN THE EVALUATION
+    result = evaluate(
+        test_cases=test_cases,
+        metrics=metrics,
+        hyperparameters=load_eval_config()
     )
 
-# RUN THE EVALUATION
-result = evaluate(
-    test_cases=test_cases,
-    metrics=metrics,
-    hyperparameters=load_eval_config()
-)
+    return result

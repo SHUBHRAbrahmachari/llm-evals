@@ -44,7 +44,9 @@ from deepeval.metrics import GEval
 from deepeval.metrics.g_eval import Rubric
 from deepeval.evaluate import evaluate
 from deepeval.test_case import LLMTestCase, SingleTurnParams
-from deepeval.models import GeminiModel
+from deepeval.models import AmazonBedrockModel
+from langsmith import Client
+from random import randint
 from dotenv import load_dotenv
 import json
 
@@ -54,13 +56,13 @@ load_dotenv(
     verbose=False
 )
 
-# LOAD THE DATASET (JUST TAKING AS SIMPLE SUBSET)
-with open("./golden_datasets/golden_dataset.json", "r") as f:
-    dataset = json.load(f)[5: 14: 4]
+# LOAD CONFIGURATION FILE
+with open("config.json", "r") as f:
+    config = json.load(f)
 
-# GET THE MODEL
-gemini_model = GeminiModel(
-    model="gemini-3.5-flash-lite"
+# GET THE JUDGE MODEL
+judge = AmazonBedrockModel(
+    model=config.get("chat_models").get("aws_bedrock")
 )
 
 # DEFINE THE EVALUATION STEPS
@@ -114,28 +116,41 @@ metrics = [metric]
 # GET THE RAG PIPELINE
 pipeline = RAGPipeline()
 
+# GET THE CLIENT
+client = Client()
+
 test_cases = []
-for test_case in dataset:
-    query = test_case.get("question")
-    expected_output = test_case.get("expected_answer")
 
-    # RETRIEVED DOCS WON'T BE REQUIRED HERE
-    _, actual_output = pipeline.invoke(query)
-
-    # RETRIEVAL CONTEXT IS NOT REQUIRED HERE
-    test_cases.append(
-        LLMTestCase(
-            input=query,
-            expected_output=expected_output,
-            actual_output=actual_output,
-            retrieval_context=None
-        )
-    )
-
-
-result = evaluate(
-    test_cases=test_cases,
-    metrics=metrics,
-    hyperparameters=load_eval_config()
+# GET THE EXAMPLES
+examples = client.list_examples(
+    dataset_name="quality_dataset",
+    limit=20
 )
 
+for example in examples:
+
+    # WE WILL PICK RANDOMLY
+    if randint(1, 100) % 2 == 0:
+        query = example.inputs.get("query")
+        expected_output = example.outputs.get("expected_answer")
+
+        _, response = pipeline.invoke(query)
+
+        test_cases.append(
+            LLMTestCase(
+                input=query,
+                actual_output=response,
+                expected_output=expected_output,
+                retrieval_context=None
+            )
+        )
+
+
+def run_correctness_eval():
+    result = evaluate(
+        test_cases=test_cases,
+        metrics=metrics,
+        hyperparameters=load_eval_config()
+    )
+
+    return result

@@ -15,7 +15,9 @@ from deepeval.metrics.g_eval import Rubric
 from deepeval.metrics import GEval
 from deepeval.evaluate import evaluate
 from deepeval.test_case import LLMTestCase, SingleTurnParams
-from deepeval.models import GeminiModel
+from deepeval.models import AmazonBedrockModel
+from langsmith import Client
+from random import randint
 from dotenv import load_dotenv
 import json
 
@@ -25,9 +27,14 @@ load_dotenv(
     verbose=False
 )
 
-# LOAD THE DATASET
-with open("./golden_datasets/golden_dataset.json", "r") as f:
-    dataset = json.load(f)[11: 20: 4]
+# LOAD CONFIGURATION FILE
+with open("config.json", "r") as f:
+    config = json.load(f)
+
+# GET THE JUDGE MODEL
+judge = AmazonBedrockModel(
+    model=config.get("chat_models").get("aws_bedrock")
+)
 
 # DEFINE YOUR EVALUATION PARAMS
 evaluation_steps = [
@@ -61,11 +68,6 @@ rubrics = [
     )
 ]
 
-# GET THE JUDGE MODEL
-judge = GeminiModel(
-    model="gemini-3.5-flash-lite"
-)
-
 # GET THE METRICS
 metrics = [
     GEval(
@@ -83,25 +85,42 @@ metrics = [
 # GET THE RAG pipeline
 pipeline = RAGPipeline()
 
+# GET THE CLIENT
+client = Client()
+
 test_cases = []
-for block in dataset:
-    query = block.get("question")
-    expected_output = block.get("expected_answer")
 
-    _, actual_output = pipeline.invoke(query=query)
+# GET THE EXAMPLES
+examples = client.list_examples(
+    dataset_name="quality_dataset",
+    limit=20
+)
 
-    test_cases.append(
-        LLMTestCase(
-            input=query,
-            actual_output=actual_output,
-            expected_output=expected_output,
-            retrieval_context=None
+for example in examples:
+
+    # WE WILL PICK RANDOMLY
+    if randint(1, 100) % 2 == 0:
+        query = example.inputs.get("query")
+        expected_output = example.outputs.get("expected_answer")
+
+        _, response = pipeline.invoke(query)
+
+        test_cases.append(
+            LLMTestCase(
+                input=query,
+                actual_output=response,
+                expected_output=expected_output,
+                retrieval_context=None
+            )
         )
+
+
+def run_style_eval():
+    # RUN THE EVALUATION
+    result = evaluate(
+        test_cases=test_cases,
+        metrics=metrics,
+        hyperparameters=load_eval_config()
     )
 
-# RUN THE EVALUATION
-result = evaluate(
-    test_cases=test_cases,
-    metrics=metrics,
-    hyperparameters=load_eval_config()
-)
+    return result
