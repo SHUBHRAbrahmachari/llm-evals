@@ -26,6 +26,7 @@ from deepeval.models import AmazonBedrockModel
 from deepeval.test_case import LLMTestCase
 from langsmith import Client
 from dotenv import load_dotenv
+from random import randint
 import json
 
 load_dotenv(
@@ -70,25 +71,29 @@ test_cases: list[LLMTestCase] = []
 # LOAD THE TEST CASES
 records = client.list_examples(
     dataset_name="quality_dataset",
-    limit=10
+    limit=20
 )
 
+
 for record in records:
-    query = record.inputs.get("query")
-    expected_answer = record.outputs.get("expected_answer")
 
-    docs, response = pipeline.invoke(query)
+    # randomly selecting this test case
+    if randint(1, 100) % 2 == 0:
+        query = record.inputs.get("query")
+        expected_answer = record.outputs.get("expected_answer")
 
-    context = [d.page_content for d in docs]
+        docs, response = pipeline.invoke(query)
 
-    test_cases.append(
-        LLMTestCase(
-            input=query,
-            actual_output=response,
-            expected_output=expected_answer,
-            retrieval_context=context
+        context = [d.page_content for d in docs]
+
+        test_cases.append(
+            LLMTestCase(
+                input=query,
+                actual_output=response,
+                expected_output=expected_answer,
+                retrieval_context=context
+            )
         )
-    )
 
 # run the evaluation
 result = evaluate(
