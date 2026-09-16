@@ -4,6 +4,7 @@ from langchain_classic.retrievers.document_compressors import CrossEncoderRerank
 from langchain_classic.retrievers import ContextualCompressionRetriever
 from langchain_core.documents import Document
 from typing_extensions import override
+from langsmith import traceable
 import json
 
 
@@ -28,6 +29,7 @@ class RerankerRetriever(SimpleRetriever):
         )
 
     @override
+    @traceable(name="fetch documents and rerank")
     def fetch_documents(self, query: str) -> list[Document]:
         documents = self.__reranker_retriever.invoke(query)
         return documents

@@ -3,6 +3,7 @@ from src.chat_model_factories import chat_model_factories
 from src.utils import generate_context, create_generator_prompt, extract_ai_message_content
 from src.document_loaders import document_loaders
 from langchain_core.documents import Document
+from langsmith import traceable
 import json
 
 
@@ -16,6 +17,7 @@ class RAGPipeline:
         self.__document_loader = document_loaders.get(config.get("vector_store_provider"))
         self.__document_loader.load_document_to_vector_store()
 
+    @traceable(name="pipeline")
     def invoke(self, query: str) -> tuple:
         # FETCH DOCUMENTS
         documents: list[Document] = self.__retriever.fetch_documents(query)

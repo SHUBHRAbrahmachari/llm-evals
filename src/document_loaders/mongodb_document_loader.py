@@ -3,6 +3,7 @@ from src.vector_store_factories import vector_store_factories
 from langchain_community.document_loaders import TextLoader, PDFPlumberLoader, UnstructuredWordDocumentLoader, UnstructuredPowerPointLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from typing_extensions import override
+from langsmith import traceable
 import json
 import os
 
@@ -20,6 +21,7 @@ class MongoDBDocumentLoader(DocumentLoader):
             exit(1)
 
     @override
+    @traceable(name="mongodb document loader")
     def load_document_to_vector_store(self, force_load: bool = False):
         base_path: str = self.__config.get("base_doc_path")
         doc_name = self.__config.get("doc_name")

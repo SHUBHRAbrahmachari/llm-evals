@@ -21,9 +21,10 @@
 from src.pipeline import RAGPipeline
 from src.utils import load_eval_config
 from deepeval.evaluate import evaluate
-from deepeval.metrics import FaithfulnessMetric, AnswerRelevancyMetric, ContextualRelevancyMetric
-from deepeval.models import GeminiModel
+from deepeval.metrics import FaithfulnessMetric, AnswerRelevancyMetric
+from deepeval.models import AmazonBedrockModel
 from deepeval.test_case import LLMTestCase
+from langsmith import Client
 from dotenv import load_dotenv
 import json
 
@@ -32,25 +33,17 @@ load_dotenv(
     verbose=False
 )
 
-# load the dataset
-with open("./golden_datasets/golden_dataset.json", "r") as d:
-    dataset = json.load(d)
+with open("config.json") as f:
+    config = json.load(f)
 
-# use only a subset of the dataset
-dataset = dataset[1: 9: 3]
 
-# get the eval config
-hyperparameters = load_eval_config()
-
-# get 3 distinct models as judges
-gemini_model_1 = GeminiModel(model="gemini-3.5-flash-lite")
-gemini_model_2 = GeminiModel(model="gemini-3.1-flash-lite")
+judge = AmazonBedrockModel(model=config.get("chat_models").get("aws_bedrock"))
 
 # define the metrics
 metrics = [
     FaithfulnessMetric(
         threshold=0.8,
-        model=gemini_model_1,
+        model=judge,
         include_reason=True,
         async_mode=True,
         verbose_mode=True
@@ -58,20 +51,15 @@ metrics = [
 
     AnswerRelevancyMetric(
         threshold=0.8,
-        model=gemini_model_2,
-        include_reason=True,
-        async_mode=True,
-        verbose_mode=True
-    ),
-
-    ContextualRelevancyMetric(
-        threshold=0.5,
-        model=gemini_model_2,
+        model=judge,
         include_reason=True,
         async_mode=True,
         verbose_mode=True
     )
 ]
+
+# connect to the client
+client = Client()
 
 # get the pipeline to trigger
 pipeline = RAGPipeline()
@@ -79,24 +67,26 @@ pipeline = RAGPipeline()
 # get the test cases
 test_cases: list[LLMTestCase] = []
 
-for block in dataset:
-    query = block.get("question")
-    expected_answer = block.get("expected_answer")
+# LOAD THE TEST CASES
+records = client.list_examples(
+    dataset_name="quality_dataset",
+    limit=10
+)
 
-    docs, actual_answer = pipeline.invoke(query)
+for record in records:
+    query = record.inputs.get("query")
+    expected_answer = record.outputs.get("expected_answer")
 
-    retrieval_context = []
-    for doc in docs:
-        retrieval_context.append(
-            doc.page_content
-        )
+    docs, response = pipeline.invoke(query)
+
+    context = [d.page_content for d in docs]
 
     test_cases.append(
         LLMTestCase(
             input=query,
+            actual_output=response,
             expected_output=expected_answer,
-            actual_output=actual_answer,
-            retrieval_context=retrieval_context
+            retrieval_context=context
         )
     )
 
@@ -104,5 +94,5 @@ for block in dataset:
 result = evaluate(
     test_cases=test_cases,
     metrics=metrics,
-    hyperparameters=hyperparameters
+    hyperparameters=load_eval_config()
 )

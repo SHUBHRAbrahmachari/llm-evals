@@ -1,7 +1,6 @@
 from langchain_core.messages import AIMessage
-from langsmith import traceable
 
-@traceable
+
 def extract_ai_message_content(message: AIMessage) -> str:
     content = message.content
 

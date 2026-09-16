@@ -1,8 +1,6 @@
 from langchain_core.prompts import PromptTemplate
-from langsmith import traceable
 
 
-@traceable
 def create_generator_prompt() -> PromptTemplate:
     prompt_template = PromptTemplate(
         input_variables=["query", "context"],

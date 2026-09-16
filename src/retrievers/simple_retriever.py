@@ -1,5 +1,6 @@
 from src.vector_store_factories import vector_store_factories
 from langchain_core.documents import Document
+from langsmith import traceable
 import json
 
 
@@ -39,6 +40,7 @@ class SimpleRetriever:
                 }
             )
 
+    @traceable(name="fetch documents")
     def fetch_documents(self, query: str) -> list[Document]:
         documents = self._retriever.invoke(query)
         return documents
