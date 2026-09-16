@@ -1,5 +1,5 @@
 {
-  "embedding_model_provider": "google",
+  "embedding_model_provider": "huggingface",
   "embedding_models": {
     "huggingface": "BAAI/bge-m3",
     "google": "gemini-embedding-2"
@@ -23,7 +23,7 @@
       "database": "rag_db",
       "collection": "rag_documents",
       "index_name": "vector_index",
-      "embedding_length": 3072,
+      "embedding_length": 1024,
       "text_key": "text",
       "embedding_key": "embedding",
       "fiters": ["doc_name"]
