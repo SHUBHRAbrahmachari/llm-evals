@@ -17,7 +17,7 @@ class RAGPipeline:
         self.__document_loader = document_loaders.get(config.get("vector_store_provider"))
         self.__document_loader.load_document_to_vector_store()
 
-    @traceable(name="pipeline")
+    @traceable(name="RAG Pipeline")
     def invoke(self, query: str) -> tuple:
         # FETCH DOCUMENTS
         documents: list[Document] = self.__retriever.fetch_documents(query)

@@ -40,7 +40,7 @@ class SimpleRetriever:
                 }
             )
 
-    @traceable(name="fetch documents")
+    @traceable(name="Simple Retriever")
     def fetch_documents(self, query: str) -> list[Document]:
         documents = self._retriever.invoke(query)
         return documents

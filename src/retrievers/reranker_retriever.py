@@ -29,7 +29,7 @@ class RerankerRetriever(SimpleRetriever):
         )
 
     @override
-    @traceable(name="fetch documents and rerank")
+    @traceable(name="Reranker Retriever")
     def fetch_documents(self, query: str) -> list[Document]:
         documents = self.__reranker_retriever.invoke(query)
         return documents
