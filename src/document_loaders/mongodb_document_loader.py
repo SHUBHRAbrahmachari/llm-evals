@@ -107,6 +107,3 @@ class MongoDBDocumentLoader(DocumentLoader):
         )
 
         return
-
-
-MongoDBDocumentLoader().load_document_to_vector_store()
