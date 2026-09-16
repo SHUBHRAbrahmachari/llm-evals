@@ -40,7 +40,7 @@
 
   "rag_config": {
     "doc_extensions": [".txt", ".pdf", ".docx", ".pptx"],
-    "chunk_size": 1000,
+    "chunk_size": 1500,
     "chunk_overlap": 150
   },
 
